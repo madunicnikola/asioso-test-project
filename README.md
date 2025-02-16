@@ -19,6 +19,14 @@ How to check:
 3. docker compose up -d (Restart the Docker container)
 ```
 
+### Permissions
+
+```bash
+1. cd /asioso-test-project (or whatever your project dir is)
+2. chmod -R 777 public
+3. chmod -R 777 var
+```
+
 ### Installation
 
 Docker commands:
