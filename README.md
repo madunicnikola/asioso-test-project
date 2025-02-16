@@ -1,24 +1,6 @@
 # Pimcore Project Skeleton 
 
-This skeleton should be used by experienced Pimcore developers for starting a new project from the ground up. 
-If you are new to Pimcore, it's better to start with our demo package, listed below 😉
-
-## Getting started
-```bash
-COMPOSER_MEMORY_LIMIT=-1 composer create-project pimcore/skeleton my-project
-cd ./my-project
-./vendor/bin/pimcore-install
-```
-
-- Point your virtual host to `my-project/public`
-- [Only for Apache] Create `my-project/public/.htaccess` according to https://pimcore.com/docs/platform/Pimcore/Installation_and_Upgrade/System_Setup_and_Hosting/Apache_Configuration/ 
-- Open https://your-host/admin in your browser
-- Done! 😎
-
-## Docker
-
-You can also use Docker to set up a new Pimcore Installation.
-You don't need to have a PHP environment with composer installed.
+Official Documentation for the Asioso Pimcore project.
 
 ### Prerequisites
 
@@ -26,42 +8,31 @@ You don't need to have a PHP environment with composer installed.
 * You must have docker compose installed.
 * Your user must be allowed to change file permissions (directly or via sudo).
 
-### Follow these steps
-1. Initialize the skeleton project using the `pimcore/pimcore` image
-``docker run -u `id -u`:`id -g` --rm -v `pwd`:/var/www/html pimcore/pimcore:php8.3-latest composer create-project pimcore/skeleton my-project``
+## Getting started
 
-2. Go to your new project
-`cd my-project/`
+--> MAKE SURE NO PROCESSES ARE RUNNING ON PORT 80! <--
 
-3. Part of the new project is a docker compose file
-    * Run `sed -i "s|#user: '1000:1000'|user: '$(id -u):$(id -g)'|g" docker-compose.yaml` to set the correct user id and group id.
-    * Start the needed services with `docker compose up -d`
+How to check:
+```bash
+1. sudo lsof -i :80 OR sudo netstat -tulnp | grep :80 # IDENTIFY THE PID OF THE PROCESS RUNNING ON PORT 80 TCP
+2. sudo kill -9 <PID>
+3. docker compose up -d (Restart the Docker container)
+```
 
-4. Install pimcore and initialize the DB
-    `docker compose exec php vendor/bin/pimcore-install`
-    * When asked for admin user and password: Choose freely
-    * This can take a while, up to 20 minutes
-    * If you select to install the SimpleBackendSearchBundle please make sure to add the `pimcore_search_backend_message` to your `.docker/supervisord.conf` file inside value for 'command' like `pimcore_maintenance` already is.
+### Installation
 
-5. Run codeception tests:
-   * `docker compose run --user=root --rm test-php chown -R $(id -u):$(id -g) var/ public/var/`
-   * `docker compose run --rm test-php vendor/bin/pimcore-install -n`
-   * `docker compose run --rm test-php vendor/bin/codecept run -vv`
+Docker commands:
+```bash
+1. cd /asioso-test-project
+2. docker compose (or docker-compose) up -d
+```
 
-6. :heavy_check_mark: DONE - You can now visit your pimcore instance:
-    * The frontend: <http://localhost>
-    * The admin interface, using the credentials you have chosen above:
-      <http://localhost/admin>
+DB Import Commands (Maridb):
+```bash
+1. docker ps 
+( copy mariadb container id )
+2. docker exec -i 319ea6cd587e(replace with your ContainerID) mysql -u root -pROOT pimcore < pimcore_db.sql ( sql dump file name) ( you need to run this command where your db.sql file located)
+```
+- Where to find the Mariadb Container ID:
 
-## Pimcore Platform Version
-By default, Pimcore Platform Version is added as a dependency which ensures installation of compatible and in combination 
-with each other tested versions of additional Pimcore modules. More information about the Platform Version can be found in the 
-[Platform Version docs](https://github.com/pimcore/platform-version). 
-
-It might be necessary to update a specific Pimcore module to a version that is not included in the Platform Version.
-In that case, you need to remove the `platform-version` dependency from your `composer.json` and update the module to
-the desired version.
-Be aware that this might lead to a theoretically compatible but untested combination of Pimcore modules.
-
-## Other demo/skeleton packages
-- [Pimcore Basic Demo](https://github.com/pimcore/demo)
+![image](https://github.com/user-attachments/assets/6885783f-792e-4855-bc08-92285fa7703d)
