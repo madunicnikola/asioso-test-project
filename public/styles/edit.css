@@ -1,0 +1,13 @@
+a.x-btn {
+    border-color: #000;
+    background-color: #3c3f41;
+}
+
+.editmode-as{
+    border: 1px solid;
+    margin-bottom: 10px;
+}
+
+.editmode-pl-10{
+    padding-left: 10px;
+}

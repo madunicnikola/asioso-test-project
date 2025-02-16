@@ -1,0 +1,16 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+
+<section id="intro" class="last clear news-details">
+<article>
+    <h1 class='pb-20'>{{news.title}}</h1>
+    {% if news.media is defined and news.media is not empty %}
+        <div class='pb-20'>{{ news.media.thumbnail({'format': 'jpeg'}).html|raw }}</div>
+    {% endif %}
+    <div> {{news.shortDescription}} </div>
+    <div class='pb-20'>{{news.description |raw}} </div>
+</article>
+</section>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+<div class="wrapper row3">
+  <div id="footer" class="clear">
+   
+    {% set  data = pimcore_block('mainlinkblock')  %}
+    {% set lastIndex = data.getCount() %}
+
+     {% for i in pimcore_iterate_block(pimcore_block('mainlinkblock')) %}
+        <section class="one_quarter{% if loop.index == lastIndex %} lastbox {% endif %}">
+            <h2 class="title">{{ pimcore_input('mainBlockTitle', {'placeholder': 'Footer Title'}) }}</h2>
+            <nav>
+                <ul>
+                    
+                    {% set  data = pimcore_block('linkblock')  %}
+                    {% set linkLastIndex = data.getCount() %}
+                   
+                    {% for i in pimcore_iterate_block(pimcore_block('linkblock')) %}
+                        <li class="{% if loop.index == linkLastIndex %} lastbox {% endif %}">
+                            {{ pimcore_link('myLink') }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </section>
+        {% if editmode %}
+            <hr />
+        {% endif %}
+    {% endfor %}
+
+    <!-- / Section -->
+  </div>
+</div>
+<!-- Copyright -->
+<div class="wrapper row4">
+  <footer id="copyright" class="clear">
+    <p class="fl_left">Copyright &copy; {{ "now"|date('Y') }} - All Rights Reserved - {{ pimcore_link('domainLink') }}</p>
+    <p class="fl_right">Posao kod {{ pimcore_link('copyRightLink') }}</p>
+  </footer>
+</div>

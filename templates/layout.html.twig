@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% apply spaceless %}
+
+    {% do pimcore_head_link().appendStylesheet(asset('styles/layout.css')) %}
+    {% if editmode %}
+        {% do pimcore_head_link().appendStylesheet(asset('styles/edit.css')) %}
+    {% endif %}
+
+    {% if not document is defined or not document %}
+        {% set document = pimcore_document(1) %}
+    {% endif %}
+
+    {% if document is instanceof('\\Pimcore\\Model\\Document\\Link') %}
+        {# @var document \Pimcore\Model\Document\Link #}
+        {% set document = document.getElement() %}
+    {% endif %}
+
+    {% if document is instanceof('\\Pimcore\\Model\\Document\\Page') %}
+        {% if document.getTitle() is not empty %}
+            {% do pimcore_head_title().set(document.getTitle()) %}
+        {% endif %}
+
+        {% if document.getDescription() is not empty %}
+            {% do pimcore_head_meta().setDescription(document.getDescription()) %}
+        {% endif %}
+
+        {% do pimcore_head_title().append('Asioso') %}
+        {% do pimcore_head_title().setSeparator(' : ') %}
+    {% endif %}
+{% endapply %}
+
+{% block layout_head_meta %}
+    {{ pimcore_head_title() }}
+    {{ pimcore_head_meta() }}
+
+    {% if pimcore_placeholder('canonical').count() %}
+        <link rel="canonical" href="{{ pimcore_placeholder('canonical') }}"/>
+    {% endif %}
+
+{% endblock %}
+
+{% block head_stylesheets %}
+    {{ pimcore_head_link() }}
+{% endblock %}
+<!--[if lt IE 9]><script src="scripts/html5shiv.js"></script><![endif]-->
+</head>
+<body>
+
+{% if not document is defined or not document %}
+    {% set document = pimcore_document(1) %}
+{% endif %}
+
+{% set navStartNode = document.getProperty('navigation_root') %}
+
+{% if not navStartNode is instanceof('\\Pimcore\\Model\\Document') %}
+    {% set navStartNode = pimcore_document(1) %}
+{% endif %}
+
+{% set mainNavigation =  app_navigation_data_links(document, navStartNode) %}
+<div class="wrapper row1">
+  <header id="header" class="clear">
+    <div id="hgroup">
+      <h1><a href="{{ navStartNode }}">Company Logo</a></h1>
+      <h2>HTML5 Website Template</h2>
+    </div>
+    <nav class='navigation'>
+        {{
+            pimcore_render_nav(mainNavigation, 'menu', 'renderMenu', {
+                maxDepth: 2,
+                ulClass: {
+                    0: '',
+                    1: 'dropdown dropdown-menu',
+                    'default': 'dropdown-menu dropdown-submenu'
+                }
+            })
+        }}
+    
+    </nav>
+  </header>
+</div>
+<!-- content -->
+<div class="wrapper row2">
+  <div id="container" class="clear">
+   <div id="homepage">
+    {% block body %}
+
+    {% endblock %}
+    </div>
+  </div>
+</div>
+
+{% if document.getProperty('footer') is defined and document.getProperty('footer')  is not empty %}
+    {{ pimcore_inc(document.getProperty('footer')) }}
+{% endif %}
+
+{% block headscripts%}
+    {{ pimcore_head_script() }}
+{% endblock %}
+
+
+{% block inlinescripts %}
+    {{ pimcore_inline_script() }}
+{% endblock %}
+<!-- Footer -->
+
+</body>
+</html>

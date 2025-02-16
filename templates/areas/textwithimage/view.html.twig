@@ -1,0 +1,44 @@
+<section id="intro" class="clear pb-30">
+    {% if editmode %}
+    <div class='editmode-as'>
+        <div class='editmode-pl-10'>
+            <div> Layout: </div>
+            <div> {{ pimcore_select("location", {
+                    "store": [
+                        ["left", "Left side Image"],
+                        ["right", "Right side Image"]
+                    ],
+                    "reload": true,
+                    "defaultValue": "right"
+                }) }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <article>
+        <figure class="{{ pimcore_select("location").getData()}} ">
+            <div class="image {{ pimcore_select("location").getData()}}">
+                {{ pimcore_image("image", {
+                    "title": "Drag your image here",
+                    "width": 300,
+                    "height": 250,
+                    "thumbnail": {
+                        "width": 450,
+                        "height": 250,
+                    }
+                }) }}
+            </div>
+        
+            <figcaption>
+                <h2>{{ pimcore_input('Headline',{'placeholder':'Headline'}) }}</h2>
+                <div>   
+                    {{ pimcore_wysiwyg('text',{'placeholder':'Summary'}) }}
+                </div>
+                <footer class="more">
+                    {% set link = pimcore_link('link') %}
+                    {{ link|raw }}
+                </footer>
+            </figcaption>
+        </figure>
+    </article>
+</section>

@@ -1,0 +1,36 @@
+<section id="services" class="clear">
+    {% if editmode %}
+      
+        
+            {{ pimcore_relations("news",{"types": ["object"],
+                    "subtypes": {
+                        "object": ["object"]
+                    },
+                    "classes": ["News"] ,
+                
+                })
+            }}
+    
+    {% endif %}
+    {% set news =  pimcore_relations("news") %}
+    {% set lastIndex = news.elementIds|length %}
+
+    {% for key,element in news %}
+        <article class="one_third {% if loop.index == lastIndex %} lastbox  {% endif %}">
+            <figure>
+                {% if element.media is defined and element.media is not empty %}
+                    {{ element.media.thumbnail({'width':290,'height':180}).html|raw }}
+                {% else %}
+                    <img src="images/demo/290x180.gif" width="290" height="180" alt="">
+                {% endif %}
+             
+                <figcaption>
+                    <h2 class='news-head'>{{element.title}}</h2>
+                    <p class='news-short-desc'>{{element.shortDescription}}</p>
+                    <footer class="more"><a href="{{pimcore_url({'id':element.getId()},'news-detail')}}">Read More &raquo;</a></footer>
+                </figcaption>
+            </figure>
+        </article>
+    {% endfor %}
+  
+</section>

@@ -1,0 +1,25 @@
+
+
+<section id="slider" class='position-relative'>
+     {% set cImage = pimcore_image('image', {
+        hidetext: true,
+        title: 'Drag Image Here',
+        "thumbnail": {
+            "width": 960,
+            "height": 360,
+        }
+    }) %}
+
+    
+    {{ cImage|raw }}
+    <div class="carousel-caption d-block">
+       
+        <h1>{{ pimcore_input('Headline',{'placeholder':'Headline'}) }}</h1>
+        <p class="hero-text">{{ pimcore_textarea('text',{'placeholder':'Summary'}) }}</p>
+        <p>{% set link = pimcore_link('link') %}
+            {{ link|raw }}
+        </p> 
+    </div>
+
+
+</section>
