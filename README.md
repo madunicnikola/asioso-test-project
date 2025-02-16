@@ -1,6 +1,6 @@
-# Pimcore Project Skeleton 
+# Asioso Test Project
 
-Official Documentation for the Asioso Pimcore project.
+Official Documentation for the Asioso Pimcore Project.
 
 ### Prerequisites
 
